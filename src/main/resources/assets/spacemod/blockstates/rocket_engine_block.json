@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "spacemod:block/rocket_engine_block" }
+  }
+}

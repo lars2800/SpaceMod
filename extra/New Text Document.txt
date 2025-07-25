@@ -1,0 +1,53 @@
+{
+  "framebuffers": {
+    "sky": {
+      "depth": true,
+      "format": "RGBA8",
+      "autoClear": false
+    },
+    "madness": {
+      "depth": true,
+      "format": "RGBA8",
+      "autoClear": false
+    }
+  },
+  "stages": [
+    {
+      "type": "veil:blit",
+      "shader": "effigies_brews:lunar_skybox",
+      "in": "minecraft:main",
+      "out": "sky",
+      "clear": false
+    },
+    {
+      "type": "veil:blit",
+      "shader": "effigies_brews:lunar_madness",
+      "in": "sky",
+      "out": "madness",
+      "clear": false
+    },
+    {
+      "type": "veil:blit",
+      "shader": "effigies_brews:lunar_madness_sky",
+      "in": "madness",
+      "out": "veil:post",
+      "clear": false
+    }
+  ],
+  "textures": {
+    "WormholeGridTexture": "effigies_brews:textures/shaders/wormhole_grid.png",
+    "BlackholeTexture": "effigies_brews:textures/shaders/blackhole.png",
+    "LunarCubemap": {
+      "type": "location",
+      "location": "effigies_brews:textures/shaders/sky/cubemap.png",
+      "filter": {
+        "seamless": true
+      }
+    },
+    "DepthBuffer": {
+      "type": "framebuffer",
+      "name": "minecraft:main:depth"
+    }
+  },
+  "renderStage": "after_sky"
+}

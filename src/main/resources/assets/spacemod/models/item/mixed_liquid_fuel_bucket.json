@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "spacemod:item/mixed_liquid_fuel_bucket_texture"
+  }
+}

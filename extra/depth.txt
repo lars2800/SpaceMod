@@ -1,0 +1,2 @@
+vec4 clip_space_ground_pos = mats * vec4(surfacePos - spherePos, 1.0);
+gl_FragDepth = (clip_space_ground_pos.z / clip_space_ground_pos.w +1)/2;

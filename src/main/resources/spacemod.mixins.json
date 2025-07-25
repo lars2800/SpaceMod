@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.lars.spacemod.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "GravityMixin"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

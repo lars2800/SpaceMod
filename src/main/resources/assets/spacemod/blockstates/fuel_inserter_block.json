@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "spacemod:block/fuel_inserter_block" }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "block.spacemod.fuel_inserter_block": "Fuel Inserter",
+  "item.spacemod.fuel_inserter_block": "Fuel Inserter",
+  "block.spacemod.rocket_engine_block": "Rocket Engine",
+  "item.spacemod.rocket_engine_block": "Rocket Engine",
+  "item.spacemod.mixed_liquid_fuel_bucket": "Liquid Hydrogen Oxygen Mixture Bucket",
+  "itemgroup.spacemod_tab": "Spacemod",
+  "item.spacemod.rocket_flame_spawner": "Flame spawner"
+}
