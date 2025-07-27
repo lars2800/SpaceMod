@@ -32,13 +32,14 @@ struct Ray{
     vec3 origin;
     vec3 direction;
 };
-struct SolidRayIntersection{
+struct VolumeIntersection{
     bool didhit;
-    vec3 surfacePosition;
+    vec3 positionIn;
+    vec3 positionOut;
 };
-struct Sphere {
-    vec3 centerPosition;
-    float sphereRadius;
+struct Cube {
+    vec3 minBounds;
+    vec3 maxBounds;
 };
 
 //---------\\
@@ -87,25 +88,26 @@ vec3 getWorldRayDir(vec2 uv) {
 //-------------\\
 // Ray tracing \\
 //-------------\\
-SolidRayIntersection calculateRaySphereIntersection(Sphere sphere, Ray ray) {
-    SolidRayIntersection result = SolidRayIntersection(false,vec3(0));
+VolumeIntersection calculateRayCubeIntersection(Cube cube, Ray ray) {
+    VolumeIntersection result = VolumeIntersection(false, vec3(0), vec3(0));
 
-    vec3 L = ray.origin - sphere.centerPosition;
-    float b = dot(L, ray.direction);
-    float c = dot(L, L) - sphere.sphereRadius * sphere.sphereRadius;
-    float discriminant = b * b - c;
+    vec3 tMin = (cube.minBounds - ray.origin) / ray.direction;
+    vec3 tMax = (cube.maxBounds - ray.origin) / ray.direction;
 
-    if (discriminant < 0.0) result.didhit = false;
+    vec3 t1 = min(tMin, tMax);
+    vec3 t2 = max(tMin, tMax);
 
-    float sqrtD = sqrt(discriminant);
-    float t1 = -b - sqrtD;
-    float t2 = -b + sqrtD;
+    float tNear = max(max(t1.x, t1.y), t1.z);
+    float tFar  = min(min(t2.x, t2.y), t2.z);
 
-    result.didhit = (t1 > 0.0 || t2 > 0.0);
+    if (tNear > tFar || tFar < 0.0) {
+        result.didhit = false;
+        return result;
+    }
 
-    float t = (t1 > 0.0) ? t1 : t2;
-    if (t <= 0.0) return result; // no valid intersection in front of camera
-    result.surfacePosition = ray.origin + ray.direction * t;
+    result.didhit = true;
+    result.positionIn = ray.origin + tNear * ray.direction;
+    result.positionOut = ray.origin + tFar * ray.direction;
 
     return result;
 }
@@ -123,14 +125,34 @@ void main() {
     
     // Ray trace
     Ray cameraRay = Ray(VeilCamera.CameraPosition, getWorldRayDir(texCoord));
-    Sphere sphere = Sphere(vec3(0.0), 1.0);
-    SolidRayIntersection intersection = calculateRaySphereIntersection(sphere,cameraRay);
+    Cube cube = Cube(
+        vec3( 0.0f,1.0f,0.0f),
+        vec3(-1.0f,-9.0f,1.0f)
+    );
+    VolumeIntersection intersection = calculateRayCubeIntersection(cube,cameraRay);
 
-    if ( intersection.didhit ){
-        vec4 hitPointWS = vec4(intersection.surfacePosition,1.0f);
-        vec4 hitPointVS = VeilCamera.ViewMat * (hitPointWS);
-        vec4 hitPointCS = VeilCamera.ProjMat * hitPointVS;
-        vec3 hitPointDepthCS = hitPointCS.xyz / hitPointCS.w;
-        fragColor = vec4(vec3(hitPointDepthCS.z),1.0f);
+    if (intersection.didhit ){
+        vec3 resultColor = vec3(0.0);
+
+        vec3 normalizedDirection = normalize( intersection.positionOut - intersection.positionIn );
+        float crossDistance = distance( intersection.positionIn, intersection.positionOut );
+        float stepDist = 0.01f;
+
+        float t = 0.0f;
+        while ( t < crossDistance ){
+            vec3 point = intersection.positionIn + ( normalizedDirection * t );
+            vec3 color = vec3(1.0f);
+            float intensety = 0.0025f;
+            resultColor += color * intensety;
+            t += stepDist;
+        }
+
+        float worldDistance = distance( VeilCamera.CameraPosition, intersection.positionIn );
+
+        if ( worldDistance < depthSampleToWorldDepth(baseDepth) ){
+            fragColor = vec4(resultColor+baseColor.xyz,1.0f);
+        }
+
+
     }
 }
