@@ -10,8 +10,7 @@ import net.lars.spacemod.fluid.ModFluids;
 import net.lars.spacemod.item.ModItems;
 import net.lars.spacemod.itemgroup.ModItemGroups;
 import net.lars.spacemod.networking.ModMessages;
-import net.lars.spacemod.particle.ModParticles;
-import net.minecraft.server.MinecraftServer;
+import net.lars.spacemod.shader.ShaderManager;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import org.slf4j.Logger;
@@ -36,7 +35,6 @@ public class Spacemod implements ModInitializer {
         ModDimensions.registerModDimensions();
         ModCommands.registerModCommands();
         ModItemGroups.registerModItemGroups();
-        ModParticles.registerModParticles();
 
         this.registerServerEvents();
     }

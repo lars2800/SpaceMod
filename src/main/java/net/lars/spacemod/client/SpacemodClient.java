@@ -1,12 +1,15 @@
 package net.lars.spacemod.client;
 
+import foundry.veil.platform.VeilEventPlatform;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.lars.spacemod.Spacemod;
 import net.lars.spacemod.custom.rocketflame.RocketFlameManager;
 import net.lars.spacemod.fluid.ModFluids;
+import net.lars.spacemod.shader.ShaderManager;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
@@ -14,6 +17,8 @@ public class SpacemodClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
+        ShaderManager.registerShader();
 
         registerClientFluids();
 

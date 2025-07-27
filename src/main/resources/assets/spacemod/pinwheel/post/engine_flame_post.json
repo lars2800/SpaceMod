@@ -1,0 +1,38 @@
+{
+  "stages": [
+    {
+      "type": "veil:mask",
+      "depth": true
+    },
+    {
+      "type": "veil:blit",
+      "shader": "spacemod:engine_flame_shader",
+      "in": "minecraft:main",
+      "out": "spacemod:engine_flame",
+      "clear": false
+    },
+    {
+      "type": "veil:copy",
+      "in": "spacemod:engine_flame",
+      "out": "minecraft:main",
+      "clear": true,
+      "color": false,
+      "depth": true
+    },
+    {
+      "type": "veil:copy",
+      "in": "spacemod:engine_flame",
+      "out": "veil:post",
+      "clear": true,
+      "depth": true
+    }
+  ],
+  "framebuffers": {
+    "swap": {
+      "depth": true,
+      "format": "RGBA16F",
+      "linear": true,
+      "autoClear": true
+    }
+  }
+}

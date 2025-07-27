@@ -1,0 +1,42 @@
+{
+  "stages": [
+    {
+      "type": "veil:mask",
+      "red": true,
+      "green": true,
+      "blue": true,
+      "alpha": true,
+      "depth": true
+    },
+    {
+      "type": "veil:depth_function",
+      "function": "ALWAYS"
+    },
+    {
+      "type": "veil:blit",
+      "shader": "spacemod:engine_flame_shader",
+      "in": "veil:post",
+      "out": "swap",
+      "clear": false
+    },
+    {
+      "type": "veil:copy",
+      "in": "swap",
+      "out": "veil:post",
+      "color": true,
+      "depth": true
+    }
+  ],
+  "framebuffers": {
+    "swap": {
+      "depth": true,
+      "format": "RGBA16F"
+    }
+  },
+  "textures": {
+    "DepthBuffer": {
+      "type": "framebuffer",
+      "name": "minecraft:main:depth"
+    }
+  }
+}
