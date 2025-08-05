@@ -1,5 +1,6 @@
 {
-  "priority": 1000,
+  "priority": 1100,
+  "replace": true,
   "stages": [
     {
       "type": "veil:mask",
@@ -8,32 +9,34 @@
 
     {
       "type": "veil:blit",
-      "shader": "spacemod:engine_flame_shader",
-      "in": "minecraft:main",
-      "out": "spacemod:engine_flame",
+      "shader": "spacemod:bloom_shader",
+      "in": "spacemod:bloom_swap",
+      "out": "swap",
       "clear": false
     },
     {
       "type": "veil:copy",
-      "in": "spacemod:engine_flame",
-      "out": "spacemod:bloom_swap",
+      "in": "swap",
+      "out": "veil:post",
       "clear": true,
       "depth": true
     },
     {
       "type": "veil:copy",
-      "in": "spacemod:engine_flame",
-      "out": "veil:post",
+      "in": "swap",
+      "out": "minecraft:main",
       "clear": true,
       "depth": true
     }
   ],
   "framebuffers": {
     "swap": {
-      "depth": true,
+      "width": "q.screen_width",
+      "height": "q.screen_height",
+      "autoClear": true,
+      "type": "texture",
       "format": "RGBA16F",
-      "linear": true,
-      "autoClear": true
+      "linear": true
     }
   }
 }

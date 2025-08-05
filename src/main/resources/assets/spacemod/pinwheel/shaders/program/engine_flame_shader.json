@@ -1,4 +1,4 @@
 {
   "vertex": "veil:blit_screen",
-  "fragment": "spacemod:engine_flame_shader_fragment"
+  "fragment": "spacemod:source/engine_flame_shader_fragment"
 }
